@@ -72,6 +72,18 @@ const t = {
 
 const projects = [
   {
+    name: "Créol'Hair",
+    emoji: '✂️',
+    type: { fr: 'Site Vitrine', en: 'Business Website' },
+    color: '#C9A96E',
+    url: 'https://coiffeur-vitrine.vercel.app',
+    desc: {
+      fr: 'Site vitrine pour un salon de coiffure martiniquais. Prestations et tarifs, galerie de réalisations, équipe, formulaire de réservation.',
+      en: 'Showcase website for a Martinique hair salon. Services & pricing, gallery, team and booking form.'
+    },
+    tech: ['HTML', 'CSS', 'JavaScript'],
+  },
+  {
     name: 'Le Flamboyant',
     emoji: '🍽️',
     type: { fr: 'Site Vitrine', en: 'Business Website' },
@@ -303,7 +315,7 @@ export default function App() {
             </a>
           </div>
           <div className="hero__stats">
-            <div className="stat"><span className="stat__num">8+</span><span className="stat__label">{lang === 'fr' ? 'Projets' : 'Projects'}</span></div>
+            <div className="stat"><span className="stat__num">9+</span><span className="stat__label">{lang === 'fr' ? 'Projets' : 'Projects'}</span></div>
             <div className="stat__sep" />
             <div className="stat"><span className="stat__num">10+</span><span className="stat__label">{lang === 'fr' ? 'Technologies' : 'Technologies'}</span></div>
             <div className="stat__sep" />
