@@ -3,11 +3,17 @@ import './App.css'
 
 const t = {
   fr: {
-    nav: ['Projets', 'Compétences', 'Services', 'Contact'],
+    nav: ['À propos', 'Projets', 'Compétences', 'Services', 'Contact'],
+    aboutTitle: 'À propos',
+    aboutBio: 'Développeur Web & Mobile basé en Martinique, je conçois des applications sur mesure qui répondent à de vrais besoins. Autodidacte, passionné par les nouvelles technologies, je couvre tout le spectre — du design à la mise en ligne.',
+    aboutDetail1: 'Spécialisé Flutter pour le mobile et React pour le web',
+    aboutDetail2: 'Basé en Martinique, disponible à distance partout',
+    aboutDetail3: 'De l\'idée au produit fini — seul interlocuteur',
     heroRole: 'Développeur Web & Mobile',
     heroSub: 'Je crée des applications mobiles et des sites web sur mesure — de l\'idée au produit fini.',
     heroBtn: 'Me contacter',
     heroBtn2: 'Voir mes projets',
+    heroCV: 'Télécharger CV',
     projectsTitle: 'Mes Projets',
     projectsSubtitle: 'Des projets concrets, du code propre, des solutions qui marchent.',
     skillsTitle: 'Compétences',
@@ -30,11 +36,17 @@ const t = {
     footer: 'Fait avec ❤️ par Audric Cinna',
   },
   en: {
-    nav: ['Projects', 'Skills', 'Services', 'Contact'],
+    nav: ['About', 'Projects', 'Skills', 'Services', 'Contact'],
+    aboutTitle: 'About me',
+    aboutBio: 'Web & Mobile developer based in Martinique, I build custom apps that solve real problems. Self-taught, passionate about technology, I cover the full stack — from design to deployment.',
+    aboutDetail1: 'Specialized in Flutter for mobile and React for web',
+    aboutDetail2: 'Based in Martinique, available remotely worldwide',
+    aboutDetail3: 'From idea to finished product — single point of contact',
     heroRole: 'Web & Mobile Developer',
     heroSub: 'I build custom mobile apps and websites — from idea to finished product.',
     heroBtn: 'Contact me',
     heroBtn2: 'See my work',
+    heroCV: 'Download CV',
     projectsTitle: 'My Projects',
     projectsSubtitle: 'Real projects, clean code, solutions that work.',
     skillsTitle: 'Skills',
@@ -59,6 +71,42 @@ const t = {
 }
 
 const projects = [
+  {
+    name: 'Le Flamboyant',
+    emoji: '🍽️',
+    type: { fr: 'Site Vitrine', en: 'Business Website' },
+    color: '#C9A96E',
+    url: 'https://restaurant-vitrine.vercel.app',
+    desc: {
+      fr: 'Site vitrine restaurant gastronomique martiniquais. Carte interactive par onglets, galerie photo, formulaire de réservation et panneau de gestion des disponibilités du jour.',
+      en: 'Fine dining restaurant showcase. Tabbed interactive menu, photo gallery, reservation form and daily availability management panel.'
+    },
+    tech: ['HTML', 'CSS', 'JavaScript'],
+  },
+  {
+    name: 'La Décadence',
+    emoji: '🌃',
+    type: { fr: 'Site Vitrine', en: 'Business Website' },
+    color: '#9C27B0',
+    url: 'https://la-decadence-336p79i7e-emilecinna-dotcoms-projects.vercel.app',
+    desc: {
+      fr: 'Site vitrine pour un établissement de nuit. Ambiance sombre et luxueuse, galerie événements, système de réservation en ligne.',
+      en: 'Showcase website for a nightlife venue. Dark luxury aesthetic, event gallery, online reservation system.'
+    },
+    tech: ['HTML', 'CSS', 'JavaScript'],
+  },
+  {
+    name: 'Audi R8 V10 — 3D',
+    emoji: '🚗',
+    type: { fr: 'Site Vitrine', en: 'Business Website' },
+    color: '#B71C1C',
+    url: 'https://audi-rs8-site-1xzshwghl-emilecinna-dotcoms-projects.vercel.app',
+    desc: {
+      fr: 'Site vitrine immersif avec modèle 3D interactif d\'une Audi R8 V10. Rotation temps réel, animations, expérience cinématique.',
+      en: 'Immersive showcase with interactive 3D Audi R8 V10 model. Real-time rotation, animations, cinematic experience.'
+    },
+    tech: ['HTML', 'CSS', 'JavaScript', '3D / WebGL'],
+  },
   {
     name: 'Convoy PTT',
     emoji: '🚗',
@@ -125,7 +173,7 @@ const services = [
   {
     icon: '🌐',
     name: { fr: 'Site Vitrine', en: 'Business Website' },
-    desc: { fr: 'Un site professionnel pour présenter ton activité, attirer des clients et être visible sur Google.', en: 'A professional website to showcase your business and attract customers.' },
+    desc: { fr: 'Un site professionnel pour présenter votre activité, attirer des clients et être visible sur Google.', en: 'A professional website to showcase your business and attract customers.' },
     price: '350€',
     includes: {
       fr: ['Design sur mesure', 'Responsive mobile', 'Formulaire de contact', 'Mise en ligne incluse'],
@@ -137,7 +185,7 @@ const services = [
   {
     icon: '⚙️',
     name: { fr: 'Application Web', en: 'Web Application' },
-    desc: { fr: 'Une app web complète avec base de données, authentification et tableau de bord — pour automatiser ou gérer ton activité.', en: 'A full web app with database, auth and dashboard — to automate or manage your business.' },
+    desc: { fr: 'Une app web complète avec base de données, authentification et tableau de bord — pour automatiser ou gérer votre activité.', en: 'A full web app with database, auth and dashboard — to automate or manage your business.' },
     price: '800€',
     includes: {
       fr: ['Interface React moderne', 'Base de données', 'Authentification', 'Tableau de bord', 'Déploiement inclus'],
@@ -161,7 +209,7 @@ const services = [
   {
     icon: '🔧',
     name: { fr: 'Maintenance & Évolution', en: 'Maintenance & Updates' },
-    desc: { fr: 'Ton site ou app évolue avec toi. Corrections, nouvelles fonctionnalités, mises à jour régulières.', en: 'Your site or app evolves with you. Bug fixes, new features, regular updates.' },
+    desc: { fr: 'Votre site ou app évolue avec vous. Corrections, nouvelles fonctionnalités, mises à jour régulières.', en: 'Your site or app evolves with you. Bug fixes, new features, regular updates.' },
     price: '80€/mois',
     includes: {
       fr: ['Corrections de bugs', 'Mises à jour sécurité', 'Petites évolutions', 'Support WhatsApp'],
@@ -188,6 +236,7 @@ const skills = [
 export default function App() {
   const [lang, setLang] = useState('fr')
   const [scrolled, setScrolled] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
   const l = t[lang]
 
   useEffect(() => {
@@ -216,15 +265,23 @@ export default function App() {
       {/* NAV */}
       <nav className={`nav ${scrolled ? 'nav--scrolled' : ''}`}>
         <span className="nav__logo">AC</span>
-        <div className="nav__links">
+        <div className={`nav__links ${menuOpen ? 'nav__links--open' : ''}`}>
           {l.nav.map((item, i) => (
-            <a key={i} href={`#${['projects','skills','services','contact'][i]}`} className="nav__link">{item}</a>
+            <a key={i} href={`#${['about','projects','skills','services','contact'][i]}`}
+              className="nav__link"
+              onClick={() => setMenuOpen(false)}>{item}</a>
           ))}
         </div>
-        <button className="lang-btn" onClick={() => setLang(lang === 'fr' ? 'en' : 'fr')}>
-          {lang === 'fr' ? '🇬🇧 EN' : '🇫🇷 FR'}
-        </button>
+        <div className="nav__right">
+          <button className="lang-btn" onClick={() => setLang(lang === 'fr' ? 'en' : 'fr')}>
+            {lang === 'fr' ? '🇬🇧 EN' : '🇫🇷 FR'}
+          </button>
+          <button className={`hamburger ${menuOpen ? 'hamburger--open' : ''}`} onClick={() => setMenuOpen(!menuOpen)} aria-label="Menu">
+            <span /><span /><span />
+          </button>
+        </div>
       </nav>
+      {menuOpen && <div className="nav__overlay" onClick={() => setMenuOpen(false)} />}
 
       {/* HERO */}
       <section className="hero">
@@ -241,13 +298,37 @@ export default function App() {
           <div className="hero__actions">
             <a href="#contact" className="btn btn--primary">{l.heroBtn}</a>
             <a href="#projects" className="btn btn--ghost">{l.heroBtn2}</a>
+            <a href="/cv.html" target="_blank" rel="noopener noreferrer" className="btn btn--ghost">
+              📄 {l.heroCV}
+            </a>
           </div>
           <div className="hero__stats">
-            <div className="stat"><span className="stat__num">5+</span><span className="stat__label">{lang === 'fr' ? 'Projets' : 'Projects'}</span></div>
+            <div className="stat"><span className="stat__num">8+</span><span className="stat__label">{lang === 'fr' ? 'Projets' : 'Projects'}</span></div>
             <div className="stat__sep" />
             <div className="stat"><span className="stat__num">10+</span><span className="stat__label">{lang === 'fr' ? 'Technologies' : 'Technologies'}</span></div>
             <div className="stat__sep" />
             <div className="stat"><span className="stat__num">100%</span><span className="stat__label">{lang === 'fr' ? 'Sur mesure' : 'Custom built'}</span></div>
+          </div>
+        </div>
+      </section>
+
+      {/* ABOUT */}
+      <section className="section section--alt reveal" id="about">
+        <div className="container">
+          <div className="about__grid">
+            <div className="about__photo">
+              <img src="/logo.svg" alt="Audric Cinna" className="about__avatar" />
+            </div>
+            <div className="about__content">
+              <h2 className="section__title" style={{ textAlign: 'left', marginBottom: 16 }}>{l.aboutTitle}</h2>
+              <p className="about__bio">{l.aboutBio}</p>
+              <ul className="about__list">
+                <li><span className="about__check">→</span>{l.aboutDetail1}</li>
+                <li><span className="about__check">→</span>{l.aboutDetail2}</li>
+                <li><span className="about__check">→</span>{l.aboutDetail3}</li>
+              </ul>
+              <a href="#contact" className="btn btn--primary" style={{ marginTop: 8 }}>{l.heroBtn}</a>
+            </div>
           </div>
         </div>
       </section>

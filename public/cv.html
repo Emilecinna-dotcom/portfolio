@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CV — Audric Cinna</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    @page {
+      size: A4;
+      margin: 0;
+    }
+
+    html, body {
+      width: 210mm;
+      height: 297mm;
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      background: #e8e8e8;
+      color: #1a1a1a;
+      font-size: 10px;
+      line-height: 1.4;
+    }
+
+    .page {
+      width: 210mm;
+      height: 297mm;
+      background: #fff;
+      display: grid;
+      grid-template-columns: 62mm 1fr;
+      overflow: hidden;
+      margin: 0 auto;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      background: #0c0c18;
+      color: #fff;
+      padding: 22px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      height: 297mm;
+    }
+
+    .sidebar__logo {
+      width: 80px;
+      height: 80px;
+      display: block;
+      margin: 0 auto 4px;
+    }
+
+    .sidebar__name {
+      text-align: center;
+    }
+    .sidebar__name h1 {
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      color: #fff;
+    }
+    .sidebar__name p {
+      font-size: 8px;
+      color: #8888aa;
+      margin-top: 3px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .divider {
+      height: 1px;
+      background: rgba(124,111,205,0.25);
+    }
+
+    .sb-section h3 {
+      font-size: 7.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #7c6fcd;
+      margin-bottom: 8px;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      font-size: 8.5px;
+      color: #b0b0cc;
+      margin-bottom: 5px;
+      line-height: 1.3;
+      word-break: break-all;
+    }
+    .contact-item .ico { flex-shrink: 0; font-size: 9px; }
+
+    .skill-item { margin-bottom: 7px; }
+    .skill-item__top {
+      display: flex;
+      justify-content: space-between;
+      font-size: 8.5px;
+      color: #c0c0d8;
+      margin-bottom: 3px;
+    }
+    .skill-bar {
+      height: 2.5px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 2px;
+    }
+    .skill-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #7c6fcd, #56cfe1);
+      border-radius: 2px;
+    }
+
+    .tag-grid { display: flex; flex-wrap: wrap; gap: 4px; }
+    .tag {
+      font-size: 7.5px;
+      background: rgba(124,111,205,0.18);
+      color: #a0a0cc;
+      border: 1px solid rgba(124,111,205,0.25);
+      padding: 2px 6px;
+      border-radius: 3px;
+    }
+
+    .lang-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 8.5px;
+      color: #b0b0cc;
+      margin-bottom: 5px;
+    }
+    .lang-level { color: #7c6fcd; font-weight: 600; }
+
+    /* ── MAIN ── */
+    .main {
+      padding: 22px 20px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .main-header {
+      padding-bottom: 10px;
+      border-bottom: 1.5px solid #f0f0f0;
+    }
+    .main-header__title {
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      color: #0c0c18;
+      line-height: 1;
+    }
+    .main-header__title span {
+      background: linear-gradient(135deg, #7c6fcd, #56cfe1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .main-header__role {
+      font-size: 9.5px;
+      color: #888;
+      margin-top: 3px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+    .main-header__bio {
+      font-size: 8.5px;
+      color: #555;
+      line-height: 1.6;
+      margin-top: 8px;
+    }
+
+    .section h2 {
+      font-size: 7.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #7c6fcd;
+      margin-bottom: 8px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .entry { margin-bottom: 9px; }
+    .entry:last-child { margin-bottom: 0; }
+    .entry__row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 1px;
+    }
+    .entry__title { font-size: 9.5px; font-weight: 700; color: #111; }
+    .entry__date { font-size: 7.5px; color: #aaa; flex-shrink: 0; margin-left: 8px; }
+    .entry__sub { font-size: 8px; color: #7c6fcd; margin-bottom: 2px; }
+    .entry__desc { font-size: 8px; color: #555; line-height: 1.55; }
+    .entry__tags { display: flex; flex-wrap: wrap; gap: 3px; margin-top: 4px; }
+    .entry__tag {
+      font-size: 7px;
+      background: #f4f4f8;
+      color: #777;
+      padding: 1.5px 5px;
+      border-radius: 3px;
+    }
+
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    .print-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, #7c6fcd, #56cfe1);
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(124,111,205,0.4);
+      letter-spacing: 0.3px;
+    }
+
+    @media print {
+      html, body { background: white; }
+      .print-btn { display: none; }
+      .page { box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <img src="/logo.svg" alt="AC" class="sidebar__logo"/>
+
+    <div class="sidebar__name">
+      <h1>Audric Cinna</h1>
+      <p>Dev Web & Mobile</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="sb-section">
+      <h3>Contact</h3>
+      <div class="contact-item"><span class="ico">📍</span>Martinique, France</div>
+      <div class="contact-item"><span class="ico">📞</span>+596 696 82 24 63</div>
+      <div class="contact-item"><span class="ico">✉️</span>Emile.cinna@icloud.com</div>
+      <div class="contact-item"><span class="ico">💻</span>github.com/Emilecinna-dotcom</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="sb-section">
+      <h3>Compétences</h3>
+      <div class="skill-item">
+        <div class="skill-item__top"><span>HTML / CSS</span><span>95%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:95%"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-item__top"><span>React / JS</span><span>92%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:92%"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-item__top"><span>Flutter / Dart</span><span>90%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:90%"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-item__top"><span>Git</span><span>85%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-item__top"><span>Supabase</span><span>80%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="sb-section">
+      <h3>Outils</h3>
+      <div class="tag-grid">
+        <span class="tag">Vite</span>
+        <span class="tag">shadcn/ui</span>
+        <span class="tag">Tailwind</span>
+        <span class="tag">Mapbox</span>
+        <span class="tag">LiveKit</span>
+        <span class="tag">Vercel</span>
+        <span class="tag">TypeScript</span>
+        <span class="tag">GitHub</span>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="sb-section">
+      <h3>Langues</h3>
+      <div class="lang-row"><span>Français</span><span class="lang-level">Natif</span></div>
+      <div class="lang-row"><span>Anglais</span><span class="lang-level">Intermédiaire</span></div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="sb-section">
+      <h3>Disponibilité</h3>
+      <div style="font-size:8.5px;color:#4ade80;font-weight:600;">● Disponible — Freelance</div>
+      <div style="font-size:8px;color:#8888aa;margin-top:3px;">Martinique & Remote</div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <div class="main-header">
+      <div class="main-header__title">Audric <span>Cinna</span></div>
+      <div class="main-header__role">Développeur Web & Mobile Freelance</div>
+      <p class="main-header__bio">
+        Développeur autodidacte spécialisé en React et Flutter, je conçois et déploie des applications web et mobiles complètes. Disponible pour des missions freelance en Martinique et à distance.
+      </p>
+    </div>
+
+    <div class="section">
+      <h2>Projets réalisés</h2>
+
+      <div class="two-col">
+        <div>
+          <div class="entry">
+            <div class="entry__row">
+              <span class="entry__title">Convoy PTT</span>
+              <span class="entry__date">2025</span>
+            </div>
+            <div class="entry__sub">App Mobile Flutter</div>
+            <p class="entry__desc">Application talkie-walkie PTT pour convois de véhicules. GPS temps réel, carte 3D Mapbox, communication audio LiveKit.</p>
+            <div class="entry__tags">
+              <span class="entry__tag">Flutter</span><span class="entry__tag">Supabase</span><span class="entry__tag">Mapbox</span><span class="entry__tag">LiveKit</span>
+            </div>
+          </div>
+
+          <div class="entry">
+            <div class="entry__row">
+              <span class="entry__title">Simulateur Fiscal</span>
+              <span class="entry__date">2025</span>
+            </div>
+            <div class="entry__sub">App Web · Vercel</div>
+            <p class="entry__desc">Simulateur de cotisations sociales auto-entrepreneurs. Calcul en temps réel selon régime BIC/BNC.</p>
+            <div class="entry__tags">
+              <span class="entry__tag">React</span><span class="entry__tag">TypeScript</span><span class="entry__tag">shadcn/ui</span>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="entry">
+            <div class="entry__row">
+              <span class="entry__title">BTS Électrotechnique</span>
+              <span class="entry__date">2025</span>
+            </div>
+            <div class="entry__sub">Site Web · Vercel</div>
+            <p class="entry__desc">Plateforme de révision : cours structurés, quiz interactifs, dashboard de progression, compte à rebours.</p>
+            <div class="entry__tags">
+              <span class="entry__tag">React</span><span class="entry__tag">Router</span><span class="entry__tag">CSS</span>
+            </div>
+          </div>
+
+          <div class="entry">
+            <div class="entry__row">
+              <span class="entry__title">Sites apprentissage langues</span>
+              <span class="entry__date">2025</span>
+            </div>
+            <div class="entry__sub">Japonais & Espagnol · Vercel</div>
+            <p class="entry__desc">Deux sites éducatifs complets : kana, kanji, conjugaison, vocabulaire, grammaire, flashcards.</p>
+            <div class="entry__tags">
+              <span class="entry__tag">React</span><span class="entry__tag">TypeScript</span><span class="entry__tag">shadcn/ui</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Formation</h2>
+      <div class="entry">
+        <div class="entry__row">
+          <span class="entry__title">BTS Électrotechnique</span>
+          <span class="entry__date">En cours</span>
+        </div>
+        <div class="entry__sub">Martinique</div>
+      </div>
+      <div class="entry">
+        <div class="entry__row">
+          <span class="entry__title">Développement Web & Mobile — Autodidacte</span>
+          <span class="entry__date">2023 – présent</span>
+        </div>
+        <p class="entry__desc">React, Flutter, JavaScript, TypeScript, bases de données, déploiement cloud (Vercel, Supabase).</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Services proposés</h2>
+      <div class="two-col">
+        <div class="entry">
+          <div class="entry__title" style="font-size:8.5px">🌐 Site Vitrine</div>
+          <p class="entry__desc">Design sur mesure, responsive, formulaire de contact, mise en ligne. À partir de 350€.</p>
+        </div>
+        <div class="entry">
+          <div class="entry__title" style="font-size:8.5px">⚙️ Application Web</div>
+          <p class="entry__desc">App React complète, base de données, authentification, dashboard. À partir de 800€.</p>
+        </div>
+        <div class="entry">
+          <div class="entry__title" style="font-size:8.5px">📱 Application Mobile</div>
+          <p class="entry__desc">App Flutter iOS & Android, notifications push, GPS, temps réel. À partir de 1 200€.</p>
+        </div>
+        <div class="entry">
+          <div class="entry__title" style="font-size:8.5px">🔧 Maintenance</div>
+          <p class="entry__desc">Corrections, évolutions, mises à jour sécurité, support WhatsApp. 80€/mois.</p>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<button class="print-btn" onclick="window.print()">⬇ Sauvegarder en PDF</button>
+</body>
+</html>
