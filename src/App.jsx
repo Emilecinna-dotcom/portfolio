@@ -298,7 +298,7 @@ export default function App() {
           <div className="hero__actions">
             <a href="#contact" className="btn btn--primary">{l.heroBtn}</a>
             <a href="#projects" className="btn btn--ghost">{l.heroBtn2}</a>
-            <a href="/cv.html" target="_blank" rel="noopener noreferrer" className="btn btn--ghost">
+            <a href="/cv.pdf" target="_blank" rel="noopener noreferrer" download="CV_Audric_Cinna.pdf" className="btn btn--ghost">
               📄 {l.heroCV}
             </a>
           </div>
