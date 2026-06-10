@@ -15,6 +15,8 @@
     html, body {
       width: 210mm;
       height: 297mm;
+      max-height: 297mm;
+      overflow: hidden;
       font-family: 'Helvetica Neue', Arial, sans-serif;
       background: #e8e8e8;
       color: #1a1a1a;
@@ -222,9 +224,9 @@
     }
 
     @media print {
-      html, body { background: white; }
-      .print-btn { display: none; }
-      .page { box-shadow: none; }
+      html, body { background: white; overflow: hidden; }
+      .print-btn { display: none !important; }
+      .page { box-shadow: none; page-break-after: avoid; }
     }
   </style>
 </head>
