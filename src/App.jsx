@@ -96,18 +96,6 @@ const projects = [
     tech: ['HTML', 'CSS', 'JavaScript'],
   },
   {
-    name: 'La Décadence',
-    emoji: '🌃',
-    type: { fr: 'Site Vitrine', en: 'Business Website' },
-    color: '#9C27B0',
-    url: 'https://la-decadence-336p79i7e-emilecinna-dotcoms-projects.vercel.app',
-    desc: {
-      fr: 'Site vitrine pour un établissement de nuit. Ambiance sombre et luxueuse, galerie événements, système de réservation en ligne.',
-      en: 'Showcase website for a nightlife venue. Dark luxury aesthetic, event gallery, online reservation system.'
-    },
-    tech: ['HTML', 'CSS', 'JavaScript'],
-  },
-  {
     name: 'Audi R8 V10 — 3D',
     emoji: '🚗',
     type: { fr: 'Site Vitrine', en: 'Business Website' },
