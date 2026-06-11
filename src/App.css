@@ -121,7 +121,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: rgba(124, 111, 205, 0.12);
+  background: rgba(245, 158, 11, 0.12);
   border: 1px solid rgba(124, 111, 205, 0.3);
   color: var(--accent2);
   padding: 6px 16px;
@@ -566,12 +566,18 @@
 .about__avatar {
   width: 200px;
   height: 200px;
-  border-radius: 50%;
+  border-radius: 24px;
   object-fit: cover;
-  border: 2px solid rgba(124, 111, 205, 0.3);
-  box-shadow: 0 0 0 6px rgba(124, 111, 205, 0.1);
+  border: 2px solid rgba(245, 158, 11, 0.3);
+  box-shadow: 0 0 0 6px rgba(245, 158, 11, 0.1);
   flex-shrink: 0;
   display: block;
+}
+[data-theme="dark"] .about__avatar {
+  filter: invert(1) brightness(0.88);
+}
+[data-theme="light"] .about__avatar {
+  filter: none;
 }
 .about__bio {
   font-size: 1.05rem;

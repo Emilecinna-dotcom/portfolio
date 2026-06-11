@@ -336,7 +336,7 @@ export default function App() {
         <div className="container">
           <div className="about__grid">
             <div className="about__photo">
-              <img src="/logo.svg" alt="Audric Cinna" className="about__avatar" />
+              <img src="/logo.png" alt="Audric Cinna" className="about__avatar" />
             </div>
             <div className="about__content">
               <h2 className="section__title" style={{ textAlign: 'left', marginBottom: 16 }}>{l.aboutTitle}</h2>
