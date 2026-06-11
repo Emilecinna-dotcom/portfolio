@@ -237,7 +237,23 @@ export default function App() {
   const [lang, setLang] = useState('fr')
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [theme, setTheme] = useState(() => {
+    const saved = localStorage.getItem('theme')
+    if (saved) return saved
+    return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'
+  })
   const l = t[lang]
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme)
+    localStorage.setItem('theme', theme)
+  }, [theme])
+
+  const toggleTheme = () => {
+    document.documentElement.classList.add('theme-transitioning')
+    setTheme(t => t === 'dark' ? 'light' : 'dark')
+    setTimeout(() => document.documentElement.classList.remove('theme-transitioning'), 350)
+  }
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
@@ -273,6 +289,9 @@ export default function App() {
           ))}
         </div>
         <div className="nav__right">
+          <button className="theme-btn" onClick={toggleTheme} aria-label="Changer de thème">
+            {theme === 'dark' ? '☀️' : '🌙'}
+          </button>
           <button className="lang-btn" onClick={() => setLang(lang === 'fr' ? 'en' : 'fr')}>
             {lang === 'fr' ? '🇬🇧 EN' : '🇫🇷 FR'}
           </button>

@@ -10,7 +10,7 @@
   transition: background 0.3s, backdrop-filter 0.3s, box-shadow 0.3s;
 }
 .nav--scrolled {
-  background: rgba(7, 7, 13, 0.85);
+  background: var(--nav-blur-bg);
   backdrop-filter: blur(16px);
   box-shadow: 0 1px 0 var(--border);
 }
@@ -40,7 +40,7 @@
   align-items: center;
   gap: 12px;
 }
-.lang-btn {
+.lang-btn, .theme-btn {
   background: var(--bg3);
   border: 1px solid var(--border);
   color: var(--text);
@@ -48,9 +48,10 @@
   border-radius: 8px;
   font-size: 0.85rem;
   cursor: pointer;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, background 0.2s;
 }
-.lang-btn:hover { border-color: var(--accent); }
+.lang-btn:hover, .theme-btn:hover { border-color: var(--accent); }
+.theme-btn { padding: 6px 10px; font-size: 1rem; line-height: 1; }
 
 /* ── HAMBURGER ───────────────────────────────────── */
 .hamburger {
@@ -103,12 +104,12 @@
 }
 .hero__glow--1 {
   width: 600px; height: 600px;
-  background: rgba(124, 111, 205, 0.18);
+  background: var(--hero-glow1);
   top: -100px; left: -150px;
 }
 .hero__glow--2 {
   width: 400px; height: 400px;
-  background: rgba(86, 207, 225, 0.12);
+  background: var(--hero-glow2);
   bottom: 0; right: -100px;
 }
 .hero__content {
