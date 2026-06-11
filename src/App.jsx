@@ -3,7 +3,7 @@ import './App.css'
 
 const t = {
   fr: {
-    nav: ['À propos', 'Projets', 'Compétences', 'Services', 'Contact'],
+    nav: ['À propos', 'Projets', 'Compétences', 'Services', 'Avis', 'Contact'],
     aboutTitle: 'À propos',
     aboutBio: 'Développeur Web & Mobile basé en Martinique, je conçois des applications sur mesure qui répondent à de vrais besoins. Autodidacte, passionné par les nouvelles technologies, je couvre tout le spectre — du design à la mise en ligne.',
     aboutDetail1: 'Spécialisé Flutter pour le mobile et React pour le web',
@@ -33,8 +33,12 @@ const t = {
     mobileApp: 'App Mobile',
     webApp: 'App Web',
     website: 'Site Web',
-    testimonialsTitle: "Ce qu'ils disent",
-    testimonialsSub: 'Ils m\'ont fait confiance pour leurs projets.',
+    reviewsTitle: 'Avis & Commentaires',
+    reviewsSub: 'Vous avez travaillé avec moi ? Laissez un avis.',
+    reviewName: 'Prénom', reviewMsg: 'Votre message',
+    reviewSend: 'Publier', reviewSending: 'Publication...',
+    reviewSuccess: '✓ Avis publié, merci !',
+    reviewEmpty: 'Soyez le premier à laisser un avis !',
     formTitle: 'Envoyer un message',
     formName: 'Nom', formEmail: 'Email', formSubject: 'Sujet', formMessage: 'Message',
     formSend: 'Envoyer', formSending: 'Envoi...', formSuccess: '✓ Message envoyé ! Je réponds sous 24h.',
@@ -43,7 +47,7 @@ const t = {
     footer: 'Fait avec ❤️ par Audric Cinna',
   },
   en: {
-    nav: ['About', 'Projects', 'Skills', 'Services', 'Contact'],
+    nav: ['About', 'Projects', 'Skills', 'Services', 'Reviews', 'Contact'],
     aboutTitle: 'About me',
     aboutBio: 'Web & Mobile developer based in Martinique, I build custom apps that solve real problems. Self-taught, passionate about technology, I cover the full stack — from design to deployment.',
     aboutDetail1: 'Specialized in Flutter for mobile and React for web',
@@ -73,8 +77,12 @@ const t = {
     mobileApp: 'Mobile App',
     webApp: 'Web App',
     website: 'Website',
-    testimonialsTitle: 'What they say',
-    testimonialsSub: 'They trusted me with their projects.',
+    reviewsTitle: 'Reviews',
+    reviewsSub: 'Worked with me? Leave a review.',
+    reviewName: 'First name', reviewMsg: 'Your message',
+    reviewSend: 'Post', reviewSending: 'Posting...',
+    reviewSuccess: '✓ Review posted, thank you!',
+    reviewEmpty: 'Be the first to leave a review!',
     formTitle: 'Send a message',
     formName: 'Name', formEmail: 'Email', formSubject: 'Subject', formMessage: 'Message',
     formSend: 'Send', formSending: 'Sending...', formSuccess: "✓ Message sent! I'll reply within 24h.",
@@ -291,6 +299,22 @@ export default function App() {
   const [statNums, setStatNums] = useState({ p: 0, t: 0, c: 0 })
   const [formSent, setFormSent] = useState(false)
   const [formSending, setFormSending] = useState(false)
+  const [reviews, setReviews] = useState([])
+  const [reviewName, setReviewName] = useState('')
+  const [reviewRating, setReviewRating] = useState(5)
+  const [reviewMsg, setReviewMsg] = useState('')
+  const [reviewSent, setReviewSent] = useState(false)
+  const [reviewSending, setReviewSending] = useState(false)
+
+  const SB_URL = import.meta.env.VITE_SUPABASE_URL
+  const SB_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY
+
+  useEffect(() => {
+    if (!SB_URL || !SB_KEY) return
+    fetch(`${SB_URL}/rest/v1/portfolio_reviews?approved=eq.true&order=created_at.desc`, {
+      headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}` }
+    }).then(r => r.json()).then(setReviews).catch(() => {})
+  }, [])
   const statsRef = useRef(null)
   const statsAnimated = useRef(false)
   const l = t[lang]
@@ -336,6 +360,30 @@ export default function App() {
     observer.observe(statsRef.current)
     return () => observer.disconnect()
   }, [])
+
+  const handleReviewSubmit = async (e) => {
+    e.preventDefault()
+    if (!SB_URL || !SB_KEY || !reviewName.trim() || !reviewMsg.trim()) return
+    setReviewSending(true)
+    try {
+      const res = await fetch(`${SB_URL}/rest/v1/portfolio_reviews`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}`,
+          Prefer: 'return=representation',
+        },
+        body: JSON.stringify({ name: reviewName.trim(), rating: reviewRating, message: reviewMsg.trim() }),
+      })
+      if (res.ok) {
+        const [newReview] = await res.json()
+        setReviews(prev => [newReview, ...prev])
+        setReviewName(''); setReviewMsg(''); setReviewRating(5); setReviewSent(true)
+        setTimeout(() => setReviewSent(false), 4000)
+      }
+    } catch {}
+    setReviewSending(false)
+  }
 
   const handleFormSubmit = async (e) => {
     e.preventDefault()
@@ -385,7 +433,7 @@ export default function App() {
         <span className="nav__logo">AC</span>
         <div className={`nav__links ${menuOpen ? 'nav__links--open' : ''}`}>
           {l.nav.map((item, i) => (
-            <a key={i} href={`#${['about','projects','skills','services','contact'][i]}`}
+            <a key={i} href={`#${['about','projects','skills','services','reviews','contact'][i]}`}
               className="nav__link"
               onClick={() => setMenuOpen(false)}>{item}</a>
           ))}
@@ -500,6 +548,74 @@ export default function App() {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* AVIS */}
+      <section className="section reveal" id="reviews">
+        <div className="container">
+          <h2 className="section__title">{l.reviewsTitle}</h2>
+          <p className="section__sub">{l.reviewsSub}</p>
+          <div className="reviews__layout">
+
+            {/* Formulaire */}
+            <form className="review-form" onSubmit={handleReviewSubmit}>
+              <div className="form-field">
+                <label>{l.reviewName}</label>
+                <input value={reviewName} onChange={e => setReviewName(e.target.value)}
+                  placeholder="Jean D." required maxLength={40} />
+              </div>
+              <div className="form-field">
+                <label>{lang === 'fr' ? 'Note' : 'Rating'}</label>
+                <div className="star-picker">
+                  {[1,2,3,4,5].map(n => (
+                    <button type="button" key={n}
+                      className={`star-btn ${n <= reviewRating ? 'star-btn--on' : ''}`}
+                      onClick={() => setReviewRating(n)}>★</button>
+                  ))}
+                </div>
+              </div>
+              <div className="form-field">
+                <label>{l.reviewMsg}</label>
+                <textarea value={reviewMsg} onChange={e => setReviewMsg(e.target.value)}
+                  rows="4" placeholder={lang === 'fr' ? 'Décrivez votre expérience...' : 'Describe your experience...'}
+                  required maxLength={400} />
+              </div>
+              {reviewSent
+                ? <div className="review-success">{l.reviewSuccess}</div>
+                : <button type="submit" className="btn btn--primary form__submit" disabled={reviewSending || !SB_URL}>
+                    {reviewSending ? l.reviewSending : `★ ${l.reviewSend}`}
+                  </button>
+              }
+            </form>
+
+            {/* Liste des avis */}
+            <div className="reviews__list">
+              {reviews.length === 0
+                ? <div className="reviews__empty">{l.reviewEmpty}</div>
+                : reviews.map(r => (
+                  <div className="review-card" key={r.id}>
+                    <div className="review-card__header">
+                      <div className="review-card__avatar">
+                        {r.name.charAt(0).toUpperCase()}
+                      </div>
+                      <div>
+                        <div className="review-card__name">{r.name}</div>
+                        <div className="review-card__stars">
+                          {'★'.repeat(r.rating)}{'☆'.repeat(5 - r.rating)}
+                        </div>
+                      </div>
+                      <div className="review-card__date">
+                        {new Date(r.created_at).toLocaleDateString(lang === 'fr' ? 'fr-FR' : 'en-GB', { day:'numeric', month:'short', year:'numeric' })}
+                      </div>
+                    </div>
+                    <p className="review-card__msg">{r.message}</p>
+                  </div>
+                ))
+              }
+            </div>
+
           </div>
         </div>
       </section>

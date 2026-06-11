@@ -499,6 +499,82 @@
   color: #fff;
 }
 
+/* ── REVIEWS ─────────────────────────────────────── */
+.reviews__layout {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 32px;
+  align-items: start;
+}
+.review-form {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: sticky;
+  top: 88px;
+}
+.star-picker { display: flex; gap: 4px; }
+.star-btn {
+  background: none; border: none; cursor: pointer;
+  font-size: 1.6rem; color: var(--border);
+  transition: color 0.15s, transform 0.1s;
+  padding: 0; line-height: 1;
+}
+.star-btn--on { color: #F59E0B; }
+.star-btn:hover { transform: scale(1.15); }
+.review-success {
+  font-size: 0.9rem; font-weight: 600; color: #4ade80;
+  text-align: center; padding: 10px;
+}
+.reviews__list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.reviews__empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text2);
+  font-size: 0.95rem;
+  background: var(--bg2);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+}
+.review-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  transition: border-color 0.2s;
+}
+.review-card:hover { border-color: rgba(124,111,205,0.3); }
+.review-card__header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.review-card__avatar {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 0.9rem; color: #fff;
+  flex-shrink: 0;
+}
+.review-card__name { font-size: 0.9rem; font-weight: 700; }
+.review-card__stars { font-size: 0.75rem; color: #F59E0B; letter-spacing: 1px; margin-top: 2px; }
+.review-card__date { font-size: 0.75rem; color: var(--text2); margin-left: auto; }
+.review-card__msg { font-size: 0.9rem; color: var(--text2); line-height: 1.7; }
+
+@media (max-width: 860px) {
+  .reviews__layout { grid-template-columns: 1fr; }
+  .review-form { position: static; }
+}
+
 /* ── PROGRESS BAR ────────────────────────────────── */
 .progress-bar {
   position: fixed;
