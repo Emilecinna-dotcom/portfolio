@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import './App.css'
 
 const t = {
   fr: {
-    nav: ['À propos', 'Projets', 'Compétences', 'Services', 'Contact'],
+    nav: ['À propos', 'Projets', 'Compétences', 'Services', 'Avis', 'Contact'],
     aboutTitle: 'À propos',
     aboutBio: 'Développeur Web & Mobile basé en Martinique, je conçois des applications sur mesure qui répondent à de vrais besoins. Autodidacte, passionné par les nouvelles technologies, je couvre tout le spectre — du design à la mise en ligne.',
     aboutDetail1: 'Spécialisé Flutter pour le mobile et React pour le web',
@@ -33,10 +33,17 @@ const t = {
     mobileApp: 'App Mobile',
     webApp: 'App Web',
     website: 'Site Web',
+    testimonialsTitle: "Ce qu'ils disent",
+    testimonialsSub: 'Ils m\'ont fait confiance pour leurs projets.',
+    formTitle: 'Envoyer un message',
+    formName: 'Nom', formEmail: 'Email', formSubject: 'Sujet', formMessage: 'Message',
+    formSend: 'Envoyer', formSending: 'Envoi...', formSuccess: '✓ Message envoyé ! Je réponds sous 24h.',
+    formNamePh: 'Jean Dupont', formEmailPh: 'jean@exemple.com',
+    formSubjectPh: 'Demande de devis', formMsgPh: 'Décrivez votre projet...',
     footer: 'Fait avec ❤️ par Audric Cinna',
   },
   en: {
-    nav: ['About', 'Projects', 'Skills', 'Services', 'Contact'],
+    nav: ['About', 'Projects', 'Skills', 'Services', 'Reviews', 'Contact'],
     aboutTitle: 'About me',
     aboutBio: 'Web & Mobile developer based in Martinique, I build custom apps that solve real problems. Self-taught, passionate about technology, I cover the full stack — from design to deployment.',
     aboutDetail1: 'Specialized in Flutter for mobile and React for web',
@@ -66,9 +73,46 @@ const t = {
     mobileApp: 'Mobile App',
     webApp: 'Web App',
     website: 'Website',
+    testimonialsTitle: 'What they say',
+    testimonialsSub: 'They trusted me with their projects.',
+    formTitle: 'Send a message',
+    formName: 'Name', formEmail: 'Email', formSubject: 'Subject', formMessage: 'Message',
+    formSend: 'Send', formSending: 'Sending...', formSuccess: "✓ Message sent! I'll reply within 24h.",
+    formNamePh: 'John Doe', formEmailPh: 'john@example.com',
+    formSubjectPh: 'Quote request', formMsgPh: 'Describe your project...',
     footer: 'Made with ❤️ by Audric Cinna',
   }
 }
+
+const testimonials = [
+  {
+    name: 'Sarah M.', initials: 'SM',
+    role: { fr: 'Gérante de salon', en: 'Salon Manager' },
+    company: "Créol'Hair",
+    text: {
+      fr: "Audric a livré notre site en une semaine. Design soigné, responsive, formulaire de réservation — exactement ce qu'on voulait. Nos clientes adorent.",
+      en: "Audric delivered our website in one week. Clean design, responsive, booking form — exactly what we wanted. Our clients love it.",
+    },
+  },
+  {
+    name: 'Marc D.', initials: 'MD',
+    role: { fr: 'Restaurateur', en: 'Restaurant Owner' },
+    company: 'Le Flamboyant',
+    text: {
+      fr: "Site magnifique pour notre restaurant. Le panneau de gestion des disponibilités est très pratique au quotidien. Très professionnel et réactif.",
+      en: "Beautiful website for our restaurant. The availability management panel is very practical daily. Very professional and responsive.",
+    },
+  },
+  {
+    name: 'Kevin T.', initials: 'KT',
+    role: { fr: 'Entrepreneur', en: 'Entrepreneur' },
+    company: 'Startup 972',
+    text: {
+      fr: "Pour notre app mobile Flutter, Audric a livré en avance sur le planning. Code propre, bonne communication. Je recommande sans hésiter.",
+      en: "For our Flutter mobile app, Audric delivered ahead of schedule. Clean code, great communication. I recommend without hesitation.",
+    },
+  },
+]
 
 const projects = [
   {
@@ -242,6 +286,13 @@ export default function App() {
     if (saved) return saved
     return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'
   })
+  const [scrollProgress, setScrollProgress] = useState(0)
+  const [showScrollTop, setShowScrollTop] = useState(false)
+  const [statNums, setStatNums] = useState({ p: 0, t: 0, c: 0 })
+  const [formSent, setFormSent] = useState(false)
+  const [formSending, setFormSending] = useState(false)
+  const statsRef = useRef(null)
+  const statsAnimated = useRef(false)
   const l = t[lang]
 
   useEffect(() => {
@@ -256,10 +307,58 @@ export default function App() {
   }
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40)
+    const onScroll = () => {
+      const y = window.scrollY
+      setScrolled(y > 40)
+      setShowScrollTop(y > 400)
+      const max = document.documentElement.scrollHeight - window.innerHeight
+      setScrollProgress(max > 0 ? (y / max) * 100 : 0)
+    }
     window.addEventListener('scroll', onScroll)
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
+
+  useEffect(() => {
+    if (!statsRef.current) return
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && !statsAnimated.current) {
+        statsAnimated.current = true
+        ;[['p', 9], ['t', 10], ['c', 100]].forEach(([key, end]) => {
+          let cur = 0
+          const iv = setInterval(() => {
+            cur = Math.min(cur + end / 40, end)
+            setStatNums(prev => ({ ...prev, [key]: Math.floor(cur) }))
+            if (cur >= end) clearInterval(iv)
+          }, 25)
+        })
+      }
+    }, { threshold: 0.8 })
+    observer.observe(statsRef.current)
+    return () => observer.disconnect()
+  }, [])
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault()
+    setFormSending(true)
+    const f = e.target
+    try {
+      const res = await fetch('https://formsubmit.co/ajax/Emile.cinna@icloud.com', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          name: f.name.value,
+          email: f.email.value,
+          _subject: f.subject.value,
+          message: f.message.value,
+        }),
+      })
+      if (res.ok) setFormSent(true)
+      else throw new Error()
+    } catch {
+      alert(lang === 'fr' ? 'Erreur réseau. Contactez-moi par WhatsApp.' : 'Network error. Contact me via WhatsApp.')
+    }
+    setFormSending(false)
+  }
 
   useEffect(() => {
     const els = document.querySelectorAll('.reveal')
@@ -278,12 +377,15 @@ export default function App() {
 
   return (
     <div className="app">
+      {/* Barre de progression */}
+      <div className="progress-bar" style={{ width: `${scrollProgress}%` }} />
+
       {/* NAV */}
       <nav className={`nav ${scrolled ? 'nav--scrolled' : ''}`}>
         <span className="nav__logo">AC</span>
         <div className={`nav__links ${menuOpen ? 'nav__links--open' : ''}`}>
           {l.nav.map((item, i) => (
-            <a key={i} href={`#${['about','projects','skills','services','contact'][i]}`}
+            <a key={i} href={`#${['about','projects','skills','services','testimonials','contact'][i]}`}
               className="nav__link"
               onClick={() => setMenuOpen(false)}>{item}</a>
           ))}
@@ -321,12 +423,12 @@ export default function App() {
               📄 {l.heroCV}
             </a>
           </div>
-          <div className="hero__stats">
-            <div className="stat"><span className="stat__num">9+</span><span className="stat__label">{lang === 'fr' ? 'Projets' : 'Projects'}</span></div>
+          <div className="hero__stats" ref={statsRef}>
+            <div className="stat"><span className="stat__num">{statNums.p}+</span><span className="stat__label">{lang === 'fr' ? 'Projets' : 'Projects'}</span></div>
             <div className="stat__sep" />
-            <div className="stat"><span className="stat__num">10+</span><span className="stat__label">{lang === 'fr' ? 'Technologies' : 'Technologies'}</span></div>
+            <div className="stat"><span className="stat__num">{statNums.t}+</span><span className="stat__label">{lang === 'fr' ? 'Technologies' : 'Technologies'}</span></div>
             <div className="stat__sep" />
-            <div className="stat"><span className="stat__num">100%</span><span className="stat__label">{lang === 'fr' ? 'Sur mesure' : 'Custom built'}</span></div>
+            <div className="stat"><span className="stat__num">{statNums.c}%</span><span className="stat__label">{lang === 'fr' ? 'Sur mesure' : 'Custom built'}</span></div>
           </div>
         </div>
       </section>
@@ -402,6 +504,29 @@ export default function App() {
         </div>
       </section>
 
+      {/* TESTIMONIALS */}
+      <section className="section reveal" id="testimonials">
+        <div className="container">
+          <h2 className="section__title">{l.testimonialsTitle}</h2>
+          <p className="section__sub">{l.testimonialsSub}</p>
+          <div className="testimonials__grid">
+            {testimonials.map((t, i) => (
+              <div className="testimonial-card" key={i}>
+                <div className="testimonial-card__stars">{'★★★★★'}</div>
+                <p className="testimonial-card__text">"{t.text[lang]}"</p>
+                <div className="testimonial-card__footer">
+                  <div className="testimonial-card__avatar">{t.initials}</div>
+                  <div className="testimonial-card__info">
+                    <div className="testimonial-card__name">{t.name}</div>
+                    <div className="testimonial-card__role">{t.role[lang]} · {t.company}</div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* SERVICES */}
       <section className="section reveal" id="services">
         <div className="container">
@@ -433,24 +558,62 @@ export default function App() {
       {/* CONTACT */}
       <section className="section section--alt reveal" id="contact">
         <div className="container">
-          <div className="contact__box">
-            <div className="contact__glow" />
-            <h2 className="section__title">{l.contactTitle}</h2>
-            <p className="section__sub">{l.contactSub}</p>
-            <div className="contact__actions">
-              <a href="tel:0696822463" className="btn btn--primary">
-                📞 {l.contactPhone} — 06 96 82 24 63
-              </a>
-              <a href="https://wa.me/596696822463" target="_blank" rel="noopener noreferrer" className="btn btn--whatsapp">
-                💬 {l.contactMsg}
-              </a>
-              <a href="mailto:Emile.cinna@icloud.com" className="btn btn--ghost">
-                ✉️ {l.contactMail}
-              </a>
+          <div className="contact__grid">
+            <div className="contact__box">
+              <div className="contact__glow" />
+              <h2 className="section__title" style={{ textAlign: 'left', marginBottom: 12 }}>{l.contactTitle}</h2>
+              <p className="section__sub" style={{ textAlign: 'left', marginLeft: 0, marginBottom: 28 }}>{l.contactSub}</p>
+              <div className="contact__actions" style={{ justifyContent: 'flex-start' }}>
+                <a href="tel:0696822463" className="btn btn--primary">
+                  📞 {l.contactPhone} — 06 96 82 24 63
+                </a>
+                <a href="https://wa.me/596696822463" target="_blank" rel="noopener noreferrer" className="btn btn--whatsapp">
+                  💬 {l.contactMsg}
+                </a>
+                <a href="mailto:Emile.cinna@icloud.com" className="btn btn--ghost">
+                  ✉️ {l.contactMail}
+                </a>
+              </div>
             </div>
+
+            {formSent ? (
+              <div className="form__success">{l.formSuccess}</div>
+            ) : (
+              <form className="contact__form" onSubmit={handleFormSubmit} noValidate>
+                <h3 className="form__title">{l.formTitle}</h3>
+                <div className="form-row">
+                  <div className="form-field">
+                    <label>{l.formName}</label>
+                    <input name="name" type="text" placeholder={l.formNamePh} required />
+                  </div>
+                  <div className="form-field">
+                    <label>{l.formEmail}</label>
+                    <input name="email" type="email" placeholder={l.formEmailPh} required />
+                  </div>
+                </div>
+                <div className="form-field">
+                  <label>{l.formSubject}</label>
+                  <input name="subject" type="text" placeholder={l.formSubjectPh} required />
+                </div>
+                <div className="form-field">
+                  <label>{l.formMessage}</label>
+                  <textarea name="message" rows="5" placeholder={l.formMsgPh} required />
+                </div>
+                <button type="submit" className="btn btn--primary form__submit" disabled={formSending}>
+                  {formSending ? l.formSending : `✉️ ${l.formSend}`}
+                </button>
+              </form>
+            )}
           </div>
         </div>
       </section>
+
+      {/* Bouton retour en haut */}
+      <button
+        className={`scroll-top ${showScrollTop ? 'scroll-top--visible' : ''}`}
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        aria-label="Retour en haut"
+      >↑</button>
 
       <footer className="footer">
         <div className="footer__links">
