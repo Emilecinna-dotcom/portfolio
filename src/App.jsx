@@ -3,7 +3,7 @@ import './App.css'
 
 const t = {
   fr: {
-    nav: ['À propos', 'Projets', 'Compétences', 'Services', 'Avis', 'Contact'],
+    nav: ['À propos', 'Projets', 'Compétences', 'Services', 'Contact'],
     aboutTitle: 'À propos',
     aboutBio: 'Développeur Web & Mobile basé en Martinique, je conçois des applications sur mesure qui répondent à de vrais besoins. Autodidacte, passionné par les nouvelles technologies, je couvre tout le spectre — du design à la mise en ligne.',
     aboutDetail1: 'Spécialisé Flutter pour le mobile et React pour le web',
@@ -43,7 +43,7 @@ const t = {
     footer: 'Fait avec ❤️ par Audric Cinna',
   },
   en: {
-    nav: ['About', 'Projects', 'Skills', 'Services', 'Reviews', 'Contact'],
+    nav: ['About', 'Projects', 'Skills', 'Services', 'Contact'],
     aboutTitle: 'About me',
     aboutBio: 'Web & Mobile developer based in Martinique, I build custom apps that solve real problems. Self-taught, passionate about technology, I cover the full stack — from design to deployment.',
     aboutDetail1: 'Specialized in Flutter for mobile and React for web',
@@ -385,7 +385,7 @@ export default function App() {
         <span className="nav__logo">AC</span>
         <div className={`nav__links ${menuOpen ? 'nav__links--open' : ''}`}>
           {l.nav.map((item, i) => (
-            <a key={i} href={`#${['about','projects','skills','services','testimonials','contact'][i]}`}
+            <a key={i} href={`#${['about','projects','skills','services','contact'][i]}`}
               className="nav__link"
               onClick={() => setMenuOpen(false)}>{item}</a>
           ))}
@@ -497,29 +497,6 @@ export default function App() {
                 <span className="skill-card__name">{s.name}</span>
                 <div className="skill-card__bar">
                   <div className="skill-card__fill" style={{ width: `${s.level}%` }} />
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* TESTIMONIALS */}
-      <section className="section reveal" id="testimonials">
-        <div className="container">
-          <h2 className="section__title">{l.testimonialsTitle}</h2>
-          <p className="section__sub">{l.testimonialsSub}</p>
-          <div className="testimonials__grid">
-            {testimonials.map((t, i) => (
-              <div className="testimonial-card" key={i}>
-                <div className="testimonial-card__stars">{'★★★★★'}</div>
-                <p className="testimonial-card__text">"{t.text[lang]}"</p>
-                <div className="testimonial-card__footer">
-                  <div className="testimonial-card__avatar">{t.initials}</div>
-                  <div className="testimonial-card__info">
-                    <div className="testimonial-card__name">{t.name}</div>
-                    <div className="testimonial-card__role">{t.role[lang]} · {t.company}</div>
-                  </div>
                 </div>
               </div>
             ))}
